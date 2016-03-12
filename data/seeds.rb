@@ -4,5 +4,4 @@ require 'faker'
 # fake data for testing purposes
 
 def db_seed
-  # Your code goes here!
 end
