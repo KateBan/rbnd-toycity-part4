@@ -1,5 +1,6 @@
 require_relative 'find_by'
 require_relative 'errors'
+require 'smarter_csv'
 require 'csv'
 
 class Udacidata
@@ -20,8 +21,26 @@ class Udacidata
   	item
   end
 
-  def self.all
-  	products =[]
-  	
+
+ def self.all
+    products = Array.new
+    CSV.foreach(@@file, headers: true) do |row|
+      	products << new(id: row["id"], brand: row["brand"], name: row["product"],
+                      price: row["price"])
+    end
+    products
   end
+
+  def self.first(item = 1)
+    item > 1 ? all.take(item) : all.first
+  end
+
+  def self.last(item = 1)
+    item > 1 ? all.reverse.take(item) : all.reverse.first
+  end
+   
+   def self.find(id)
+      item = self.all.find {|item| item.id == id +1}
+      return item
+   end
 end
