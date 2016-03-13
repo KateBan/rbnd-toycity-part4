@@ -77,6 +77,19 @@ class Udacidata
     items
   end
  
+  def update(options = {})
+    Product.destroy(id)
+    if options[:brand]
+      brand = options[:brand]
+    end
+    if options[:name]
+      name = options[:name] 
+    end
+    if options[:price]
+      price = options[:price] 
+    end
+      Product.create(id: id, brand: brand, name: name, price: price)
+  end
 end
 
 
