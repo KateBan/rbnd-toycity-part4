@@ -4,7 +4,7 @@ require_relative 'product'
 require 'csv'
 
 class Udacidata
-  include UdacidataErrors
+  #include UdacidataErrors
 
   @@file = File.dirname(__FILE__) + "/../data/data.csv"
   
@@ -44,9 +44,27 @@ class Udacidata
    def self.find(id)
     item = self.all.find{|item| item.id == id}
     if !item
-      raise ProductDoesNotExistError, "Product id: #{id} does not exist."
+      raise ProductDoesNotExistError::UdacidataErrors, "Product id: #{id} does not exist."
     end
     item
   end
 
+  # Very useful link on how to delete a CSV row in ruby
+  # And why you should use CVS.table and not CVS.read
+  # http://stackoverflow.com/questions/26707169/how-to-remove-a-row-from-a-csv-with-ruby
+  def self.destroy(id)
+    item = find(id)
+    table = CSV.table(@@file)
+    table.delete_if do |row|
+      row[:id] == id
+    end
+
+    File.open(@@file, 'w') do |f|
+      f.write(table.to_csv)
+    end
+    item
+  end
 end
+
+
+
