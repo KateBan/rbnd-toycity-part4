@@ -64,6 +64,19 @@ class Udacidata
     end
     item
   end
+
+  def self.where(options = {})
+    brand = options[:brand]
+    name = options[:name]
+    items = Array.new
+    all.select do |item|
+      if item.brand == brand || item.name == name
+        items << item
+      end
+    end
+    items
+  end
+ 
 end
 
 
