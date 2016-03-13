@@ -1,11 +1,14 @@
 require_relative 'find_by'
 require_relative 'errors'
-require 'smarter_csv'
+require_relative 'product'
 require 'csv'
 
 class Udacidata
+  include UdacidataErrors
+
   @@file = File.dirname(__FILE__) + "/../data/data.csv"
   
+
   def self.create(*attributes)
   	data = CSV.read(@@file)
   	item = self.new(*attributes)
@@ -14,7 +17,7 @@ class Udacidata
   		create_item = [item.id, item.brand, item.name, item.price]
   		if !data.include?(create_item)
   			CSV.open(@@file, "ab") do |row|
-  				row << data
+  				row << create_item
   			end
   		end
   	end
@@ -25,8 +28,7 @@ class Udacidata
  def self.all
     products = Array.new
     CSV.foreach(@@file, headers: true) do |row|
-      	products << new(id: row["id"], brand: row["brand"], name: row["product"],
-                      price: row["price"])
+      	products << new(id: row["id"], brand: row["brand"], name: row["product"], price: row["price"])
     end
     products
   end
@@ -40,7 +42,11 @@ class Udacidata
   end
    
    def self.find(id)
-      item = self.all.find {|item| item.id == id +1}
-      return item
-   end
+    item = self.all.find{|item| item.id == id}
+    if !item
+      raise ProductDoesNotExistError, "Product id: #{id} does not exist."
+    end
+    item
+  end
+
 end
