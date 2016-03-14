@@ -33,15 +33,14 @@ module Analyzable
   end
 
   def print_report(products)
-  	report = "Average price: $#{average_price(products)}"
-  	report += "\n"
-  	report += "Inventory by brand: "
+  	report = "Average Price: $#{average_price(products)}\n"
+  	report += "Inventory by Brand: \n"
   	count_by_brand(products).each do |brand, value|
-  		report += "   #{brand}: #{value}"
+  		report += "    - #{brand}: #{value}\n"
   	end
-  	report += "Inventory by name: "
+  	report += "Inventory by Name: \n"
   	count_by_name(products).each do |name, value|
-  		report += "   #{name}: #{value}"
+  		report += "    - #{name}: #{value}\n"
   	end
   	report
   end
