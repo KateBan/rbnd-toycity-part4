@@ -12,3 +12,4 @@ class Module
 end
 
 Module.create_finder_methods('brand', 'name')
+

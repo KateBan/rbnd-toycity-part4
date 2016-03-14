@@ -4,7 +4,6 @@ require_relative 'product'
 require 'csv'
 
 class Udacidata
-  #include UdacidataErrors
 
   @@file = File.dirname(__FILE__) + "/../data/data.csv"
   
@@ -44,7 +43,7 @@ class Udacidata
    def self.find(id)
     item = self.all.find{|item| item.id == id}
     if !item
-      raise ProductDoesNotExistError::UdacidataErrors, "Product id: #{id} does not exist."
+      raise ProductNotFoundError::UdacidataErrors, "There is not a product with id: #{id}."
     end
     item
   end
@@ -55,15 +54,31 @@ class Udacidata
   def self.destroy(id)
     item = find(id)
     table = CSV.table(@@file)
-    table.delete_if do |row|
-      row[:id] == id
-    end
-
+    table.delete_if {|row| row[:id] == id}
+    
     File.open(@@file, 'w') do |f|
       f.write(table.to_csv)
     end
     item
   end
+
+  # I was trying to write self.where in this way
+  # but couln't make it work. I am sure there should be 
+  # some other much more elegant way than that I actually
+  # ended up using. Any suggestions are welcome! :) The same goes for the 
+  # update method. It drove me crazy.
+
+  # create_finder_methods(:brand, :name)
+  # def self.where(options)
+  #   items = Array.new
+  #   create_finder_methods(options).each do |brand, value|
+  #     items << "#{brand}=".to_sym  = value
+  #   end
+  #   create_finder_methods(options).each do |name, value|
+  #     items << "#{name}=".to_sym = value
+  #   end
+  #   items
+  # end
 
   def self.where(options = {})
     brand = options[:brand]
@@ -77,6 +92,7 @@ class Udacidata
     items
   end
  
+  
   def update(options = {})
     Product.destroy(id)
     if options[:brand]
