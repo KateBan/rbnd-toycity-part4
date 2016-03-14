@@ -1,13 +1,14 @@
 module Analyzable
 
-	def average_price(products)
-		total = 0.0
-		products.each do |product| 
-			total += product.price.to_f
-		end
-		(total/products.length).round(2)
+   def average_price(products)
+	 total = 0.0
+	 products.each do |product| 
+		total += product.price.to_f
 	end
+	(total/products.length).round(2)
+   end
   
+  # count_by_brand and count_by_name need some refactoring 
   def count_by_brand(products)
   	inventory = Hash.new
   	products.each do |product|

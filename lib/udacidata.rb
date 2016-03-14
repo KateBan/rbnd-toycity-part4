@@ -48,8 +48,8 @@ class Udacidata
     item
   end
 
-  # Very useful link on how to delete a CSV row in ruby
-  # And why you should use CVS.table and not CVS.read
+  # Very useful link on how to delete a CSV row in Ruby
+  # And why you should use CSV.table and not CSV.read
   # http://stackoverflow.com/questions/26707169/how-to-remove-a-row-from-a-csv-with-ruby
   def self.destroy(id)
     item = find(id)
@@ -62,7 +62,7 @@ class Udacidata
     item
   end
 
-  # I was trying to write self.where in this way
+  # I was trying to write self.where method in this way
   # but couln't make it work. I am sure there should be 
   # some other much more elegant way than that I actually
   # ended up using. Any suggestions are welcome! :) The same goes for the 
