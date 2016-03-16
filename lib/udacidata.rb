@@ -43,7 +43,7 @@ class Udacidata
    def self.find(id)
     item = self.all.find{|item| item.id == id}
     if !item
-      raise ProductNotFoundError::UdacidataErrors, "There is not a product with id: #{id}."
+      raise UdacidataErrors::ProductNotFoundError, "There is not a product with id: #{id}."
     end
     item
   end
@@ -62,32 +62,10 @@ class Udacidata
     item
   end
 
-  # I was trying to write self.where method in this way
-  # but couln't make it work. I am sure there should be 
-  # some other much more elegant way than that I actually
-  # ended up using. Any suggestions are welcome! :) The same goes for the 
-  # update method. It drove me crazy.
-
-  # create_finder_methods(:brand, :name)
-  # def self.where(options)
-  #   items = Array.new
-  #   create_finder_methods(options).each do |brand, value|
-  #     items << "#{brand}=".to_sym  = value
-  #   end
-  #   create_finder_methods(options).each do |name, value|
-  #     items << "#{name}=".to_sym = value
-  #   end
-  #   items
-  # end
-
   def self.where(options = {})
-    brand = options[:brand]
-    name = options[:name]
-    items = Array.new
-    all.select do |item|
-      if item.brand == brand || item.name == name
-        items << item
-      end
+    items = self.all
+    options.select do |key,value|
+      items = items.select {|item| item.send(key) == value} 
     end
     items
   end

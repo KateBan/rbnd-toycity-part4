@@ -10,27 +10,15 @@ module Analyzable
   
   # count_by_brand and count_by_name need some refactoring 
   def count_by_brand(products)
-  	inventory = Hash.new
-  	products.each do |product|
-  		if inventory[product.brand]
-  			inventory[product.brand] += 1
-  		else
-  			inventory[product.brand] = 1
-  		end
-  	end
+  	inventory = Hash.new 0
+  	products.each { |product| inventory[product.brand] += 1}	
   	inventory
   end
 
   def count_by_name(products)
-  	inventory = Hash.new
-  	products.each do |product|
-  		if inventory[product.name]
-  			inventory[product.name] += 1
-  		else
-  			inventory[product.name] = 1
-  		end 
-  	end
-  	inventory
+  	inventory = Hash.new 0
+    products.each { |product| inventory[product.name] += 1}  
+    inventory
   end
 
   def print_report(products)
