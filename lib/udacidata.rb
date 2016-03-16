@@ -64,7 +64,7 @@ class Udacidata
 
   def self.where(options = {})
     items = self.all
-    options.select do |key,value|
+    options.each do |key,value|
       items = items.select {|item| item.send(key) == value} 
     end
     items
